@@ -2,6 +2,7 @@
 - name: Start Linux Service
   hosts: all
   become: true
+  gather_facts: false  # <--- Add this line
   tasks:
     - name: Ensure service is started
       ansible.builtin.systemd:
