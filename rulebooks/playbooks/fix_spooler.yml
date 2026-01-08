@@ -1,0 +1,9 @@
+---
+- name: Remediation - Start Windows Service
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Ensure the service is running
+      ansible.windows.win_service:
+        name: "{{ service_name | default('Spooler') }}"
+        state: started
