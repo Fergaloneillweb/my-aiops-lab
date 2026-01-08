@@ -2,7 +2,9 @@
 - name: Start Linux Service
   hosts: all
   become: true
-  gather_facts: false  # <--- Add this line
+  gather_facts: false
+  vars:
+    service_name: "cups"  # This is the default if no one tells it otherwise
   tasks:
     - name: Ensure service is started
       ansible.builtin.systemd:
