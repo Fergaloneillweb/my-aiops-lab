@@ -1,16 +1,16 @@
 ---
-- name: Listen for Windows Self-Reported Alerts
+- name: Monitor Windows Service via Event Log
   hosts: all
   sources:
-    - ansible.eda.webhook:
-        port: 5001
+    - ansible.eda.windows_event_log:
+        host: "192.168.x.x"     # Your Windows IP
+        username: "Administrator"
+        password: 'aapdev@Wind0ws' 
+        content: "system"
+        query: "*[System[(EventID=7036)]]"
   rules:
-    - name: Restart Spooler
-      condition: event.payload.status == "down" and event.payload.service == "Spooler"
+    - name: Restart Spooler if stopped
+      condition: event.Message contains "Print Spooler" and event.Message contains "stopped"
       action:
         run_job_template:
           name: "Restore Windows Service"
-          organization: "Default"
-          job_args:
-            extra_vars:
-              service_name: "{{ event.payload.service }}"
