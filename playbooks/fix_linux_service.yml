@@ -1,0 +1,9 @@
+---
+- name: Start Linux Service
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure service is started
+      ansible.builtin.systemd:
+        name: "{{ service_name }}"
+        state: started
